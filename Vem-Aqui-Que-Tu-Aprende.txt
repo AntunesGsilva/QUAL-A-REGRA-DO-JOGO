@@ -1,0 +1,47 @@
+Qual a regra do jogo ou Qual a criptografia usada? - Jogo baseado em uma maquina enigma
+Sistemas Operacionais - Trabalho 02 - Python 
+
+Arquivos usados 
+
+  comum.py     protocolo, memória compartilhada, threads e regras do jogo
+  servidor.py  Jogador 1 (escuta a conexão)
+  cliente.py   Jogador 2 (conecta no servidor)
+  jogo.py      menu que abre o servidor ou o cliente (usado no executável)
+
+Como executar (sempre o servidor primeiro) servidor no caso seria o jogador 1 
+  Pelo código (dois terminais na pasta dos arquivos):
+    Terminal 1:  python servidor.py
+    Terminal 2:  python cliente.py 127.0.0.1
+  Pelo executável:
+    Abra QualARegraDoJogo.exe duas vezes: na 1ª janela escolha 1 (servidor),
+    na 2ª escolha 2 (cliente) e use o IP 127.0.0.1.
+  Em dois computadores: no cliente use o IP mostrado pelo servidor.
+  Opcional: --debug mostra as mensagens do protocolo trocadas.
+
+Como jogar nosso jogo: 
+
+  1. Quem cifra escolhe uma palavra (3 a 12 letras) e uma regra:
+       1 Espelho (CASA -> ASAC)
+       2 Vogais por números (CASA -> C1S1)
+       3 Cifra de César - (BABA) a criptografia desse modelo, faz essa palavra virar (CBCB)
+       4 Combo: espelho + César (CASA -> BTBD)
+  2. Só a palavra cifrada vai para o outro jogador.
+  3. Contagem de 10 s ("Prepare-se, sua vez de jogar está chegando").
+  4. 30 s e 3 tentativas para digitar a palavra original.
+  5. Dicas: após o 1º erro, o tipo da regra; após o 2º, as letras certas
+     na posição e a letra inicial.
+  6. Pontos: 10/7/5 (1ª/2ª/3ª tentativa) + bônus da regra (César +3,
+     Combo +6). Se ninguém acertar, quem cifrou ganha 5.
+     Modo Desafio: + bônus de velocidade e de acertos seguidos.
+  7. Os papéis se invertem a cada rodada; placar acumulado.
+
+PROTOCOLO  <vez><CÓDIGO>:campos   (vez: 1/2 = quem decifra, 0 = controle)
+  0H:nome:modo     apresentação
+  vN:cifrada       palavra cifrada
+  vT:k:palpite:t   tentativa k e tempo restante
+  vD:k:regra[:masc:ini]  dica
+  vX:k             tempo esgotado
+  vR:res:palavra:regra:n:ganhador:pts:base:vel:combo:bregra:p1:p2  resultado
+  0C:S|N           continuar
+  0S               saída
+  Exemplo: 2N:DBTB  2T:1:BASA:21.4  2D:1:C  2T:2:CASA:14.0  2R:A:CASA:C:1:2:10:7:0:0:3:0:10

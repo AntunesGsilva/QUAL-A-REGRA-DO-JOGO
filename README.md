@@ -1,2 +1,2 @@
-# Qual-a-regra-do-o-jogo-
+# Qual-a-regra-do-jogo-
 Arquivos finais da construção do nosso jogo.
